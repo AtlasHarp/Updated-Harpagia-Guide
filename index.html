@@ -2014,7 +2014,7 @@
 
             sections.forEach(section => {
                 const sectionTitle = getSectionTitle(section);
-                const searchableElements = Array.from(section.querySelectorAll("p, li"));
+                const searchableElements = Array.from(section.querySelectorAll("p, li, h3"));
 
                 searchableElements.forEach(el => {
                     const text = el.textContent.replace(/\s+/g, " ").trim();
@@ -2108,6 +2108,15 @@
                 section.scrollIntoView({ behavior: "smooth", block: "start" });
             });
         });
+
+        // Expand section on direct hash link (e.g. #section13)
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target && target.classList.contains("section")) {
+                target.classList.remove("collapsed");
+                setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+            }
+        }
 
         // Sidebar links expand section before scrolling
         sidebarLinks.forEach(link => {
